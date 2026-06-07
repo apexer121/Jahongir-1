@@ -1,1 +1,1 @@
-document.addEventListener("touchstart", function(){}, {passive:true});
+document.getElementById("modal").classList.add("show");
