@@ -1,354 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>Абдухафизов Жахонгир проект</title>
-    <link rel="stylesheet" href="./style.css">
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-
-<!-- 📱 ВАЖНО: адаптация под телефон -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Финансовый калькулятор</title>
-
 <style>
-
-body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background:#0f172a;
-    color:#e5e7eb;
-}
-
-/* HEADER */
-.header{
-    padding:25px;
-    text-align:center;
-    font-size:26px;
-    font-weight:bold;
-}
-
-/* TOP HELP BUTTON */
-.topbar{
-    position:fixed;
-    top:12px;
-    right:12px;
-}
-
-.help-btn{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    border:none;
-    background:#3b82f6;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
-}
-
-/* CONTAINER */
-.container{
-    max-width:1100px;
-    margin:auto;
-    padding:20px;
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:20px;
-}
-
-/* CARD */
-.card{
-    background:#111c36;
-    padding:20px;
-    border-radius:16px;
-}
-
-h3{
-    margin-top:0;
-}
-
-input{
-    width:100%;
-    padding:10px;
-    margin-top:6px;
-    margin-bottom:12px;
-    border-radius:10px;
-    border:1px solid #24324d;
-    background:#0b1220;
-    color:white;
-    font-size:16px; /* важно для телефона */
-}
-
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:12px;
-    background:#3b82f6;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-}
-
-/* RESULTS */
-.results{
-    grid-column:1 / -1;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-}
-
-.box{
-    background:#0b1220;
-    padding:15px;
-    border-radius:14px;
-    text-align:center;
-}
-
-.big{
-    font-size:20px;
-    font-weight:bold;
-    color:#22c55e;
-    margin-top:5px;
-}
-
-.label{
-    font-size:13px;
-    color:#94a3b8;
-}
-
-/* MODAL */
-.modal{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.6);
-    justify-content:center;
-    align-items:center;
-}
-
-.modal-content{
-    background:#111c36;
-    padding:20px;
-    border-radius:16px;
-    max-width:90%;
-    width:400px;
-    color:white;
-}
-
-/* 📱 MOBILE FIX */
-@media (max-width: 768px){
-
-    .container{
-        grid-template-columns:1fr;
-    }
-
-    .results{
-        grid-template-columns:1fr;
-    }
-
-    .header{
-        font-size:20px;
-    }
-
-}
-
+body{margin:0;font-family:Arial,sans-serif;background:#0f172a;color:#e5e7eb}
+.header{padding:25px;text-align:center;font-size:26px;font-weight:bold}
+.topbar{position:fixed;top:12px;right:12px;z-index:9999}
+.help-btn{width:42px;height:42px;border-radius:50%;border:none;background:#3b82f6;color:#fff;font-size:18px;cursor:pointer}
+.container{max-width:1100px;margin:auto;padding:20px;display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.card{background:#111c36;padding:20px;border-radius:16px}
+h3{margin-top:0}
+input,select{width:100%;padding:10px;margin-top:6px;margin-bottom:12px;border-radius:10px;border:1px solid #24324d;background:#0b1220;color:white;font-size:16px;box-sizing:border-box}
+button{width:100%;padding:12px;border:none;border-radius:12px;background:#3b82f6;color:white;font-size:16px;cursor:pointer}
+.results{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.box{background:#0b1220;padding:15px;border-radius:14px;text-align:center}
+.big{font-size:20px;font-weight:bold;color:#22c55e;margin-top:5px}
+.label{font-size:13px;color:#94a3b8}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);justify-content:center;align-items:center;z-index:10000}
+.modal-content{background:#111c36;padding:20px;border-radius:16px;max-width:90%;width:400px}
+@media(max-width:768px){.container{grid-template-columns:1fr}.results{grid-template-columns:1fr}.header{font-size:20px}}
 </style>
 </head>
-
 <body>
 
-<!-- HELP -->
-<div class="topbar">
-    <button class="help-btn" onclick="openHelp()">?</button>
-</div>
+<div class="topbar"><button class="help-btn" onclick="openHelp()">?</button></div>
 
 <div id="modal" class="modal">
-    <div class="modal-content">
-        <h2>📊 О программе</h2>
-
-        <p>
-        Этот калькулятор помогает рассчитать ваши расходы и ипотеку,
-        чтобы понять, какой доход нужен для вашей жизни и финансовых целей.
-        </p>
-
-        <ul>
-            <li>🏠 Ипотека</li>
-            <li>💸 Ежемесячные расходы</li>
-            <li>📊 Общий бюджет</li>
-            <li>💰 Требуемый доход</li>
-            <li>⏳ Накопление на взнос</li>
-        </ul>
-
-        <button onclick="closeHelp()">Закрыть</button>
-    </div>
+<div class="modal-content">
+<h2>📊 О программе</h2>
+<p>Калькулятор помогает оценить расходы, ипотеку и необходимый доход для финансовых целей.</p>
+<button onclick="closeHelp()">Закрыть</button>
+</div>
 </div>
 
 <div class="header">💳 Финансовый калькулятор</div>
 
 <div class="container">
 
-    <!-- MORTGAGE -->
-    <div class="card">
-        <h3>🏠 Ипотека</h3>
+<div class="card">
+<h3>🏠 Ипотека</h3>
 
-        Стоимость жилья
-        <input id="house" value="60000">
+Стоимость жилья
+<input id="house" value="60000">
 
-        Первоначальный взнос (%)
-        <input id="down" value="20">
+Первоначальный взнос (%)
+<input id="down" value="20">
 
-        Ставка (%)
-        <input id="rate" value="18">
+Ставка (%)
+<input id="rate" value="18">
 
-        Срок (лет)
-        <input id="years" value="20">
-    </div>
+Срок (лет)
+<input id="years" value="20">
 
-    <!-- EXPENSES -->
-    <div class="card">
-        <h3>💸 Расходы за месяц</h3>
+Метод расчета ипотеки
+<select id="mortgageType">
+<option value="annuity">Аннуитетный</option>
+<option value="diff">Дифференциальный</option>
+</select>
+</div>
 
-        Еда <input id="food" value="250">
-        Транспорт <input id="transport" value="100">
-        Коммунальные <input id="utilities" value="60">
-        Развлечения <input id="fun" value="120">
-        Одежда <input id="clothes" value="80">
-        Машина <input id="car" value="100">
-        Интернет <input id="internet" value="20">
-        Случайные <input id="random" value="50">
-        Здоровье <input id="health" value="60">
-        Обучение <input id="education" value="40">
-        Подарки <input id="gifts" value="30">
-        Прочее <input id="other" value="50">
-    </div>
+<div class="card">
+<h3>💸 Расходы за месяц</h3>
+Еда <input id="food" value="250">
+Транспорт <input id="transport" value="100">
+Коммунальные <input id="utilities" value="60">
+Развлечения <input id="fun" value="120">
+Одежда <input id="clothes" value="80">
+Машина <input id="car" value="100">
+Интернет <input id="internet" value="20">
+Случайные расходы <input id="random" value="50">
+Здоровье <input id="health" value="60">
+Обучение <input id="education" value="40">
+Подарки <input id="gifts" value="30">
+Прочее <input id="other" value="50">
+</div>
 
-    <!-- SAVINGS -->
-    <div class="card">
-        <h3>💰 Сбережения</h3>
+<div class="card">
+<h3>💰 Сбережения</h3>
+Откладываете в месяц
+<input id="save" value="300">
+<br><br>
+<button onclick="calc()">Рассчитать</button>
+</div>
 
-        Откладываете в месяц
-        <input id="save" value="300">
-
-        <br><br>
-        <button onclick="calc()">Рассчитать</button>
-    </div>
-
-    <!-- RESULTS -->
-    <div class="results">
-
-        <div class="box">
-            <div class="label">Ипотека / мес</div>
-            <div class="big" id="mortRes">$0</div>
-        </div>
-
-        <div class="box">
-            <div class="label">Расходы без ипотеки</div>
-            <div class="big" id="expRes">$0</div>
-        </div>
-
-        <div class="box">
-            <div class="label">Общие расходы</div>
-            <div class="big" id="totalRes">$0</div>
-        </div>
-
-        <div class="box">
-            <div class="label">Минимальная зарплата</div>
-            <div class="big" id="incomeRes">$0</div>
-        </div>
-
-        <div class="box">
-            <div class="label">Комфорт (+20%)</div>
-            <div class="big" id="comfortRes">$0</div>
-        </div>
-
-        <div class="box">
-            <div class="label">Годы до взноса</div>
-            <div class="big" id="yearsRes">0</div>
-        </div>
-
-    </div>
+<div class="results">
+<div class="box"><div class="label">Тип ипотеки</div><div class="big" id="typeRes">-</div></div>
+<div class="box"><div class="label">Платеж по ипотеке</div><div class="big" id="mortRes">$0</div></div>
+<div class="box"><div class="label">Расходы без ипотеки</div><div class="big" id="expRes">$0</div></div>
+<div class="box"><div class="label">Общие расходы</div><div class="big" id="totalRes">$0</div></div>
+<div class="box"><div class="label">Комфортный доход</div><div class="big" id="comfortRes">$0</div></div>
+<div class="box"><div class="label">Годы до взноса</div><div class="big" id="yearsRes">0</div></div>
+<div class="box"><div class="label">Первый платеж</div><div class="big" id="firstPayRes">$0</div></div>
+<div class="box"><div class="label">Последний платеж</div><div class="big" id="lastPayRes">$0</div></div>
+<div class="box"><div class="label">Минимальная зарплата</div><div class="big" id="incomeRes">$0</div></div>
+</div>
 
 </div>
 
 <script>
+document.addEventListener("touchstart", function(){}, {passive:true});
 
-/* HELP */
-function openHelp(){
-    document.getElementById("modal").style.display = "flex";
-}
+function openHelp(){document.getElementById("modal").style.display="flex";}
+function closeHelp(){document.getElementById("modal").style.display="none";}
 
-function closeHelp(){
-    document.getElementById("modal").style.display = "none";
-}
-
-/* CALC */
 function calc(){
+let house=Number(document.getElementById("house").value);
+let down=Number(document.getElementById("down").value)/100;
+let rate=Number(document.getElementById("rate").value)/100/12;
+let years=Number(document.getElementById("years").value)*12;
 
-    let house = Number(document.getElementById("house").value);
-    let down = Number(document.getElementById("down").value)/100;
-    let rate = Number(document.getElementById("rate").value)/100/12;
-    let years = Number(document.getElementById("years").value)*12;
+let expenses=
+Number(food.value)+Number(transport.value)+Number(utilities.value)+
+Number(fun.value)+Number(clothes.value)+Number(car.value)+
+Number(internet.value)+Number(random.value)+Number(health.value)+
+Number(education.value)+Number(gifts.value)+Number(other.value);
 
-    let food = Number(document.getElementById("food").value);
-    let transport = Number(document.getElementById("transport").value);
-    let utilities = Number(document.getElementById("utilities").value);
-    let fun = Number(document.getElementById("fun").value);
-    let clothes = Number(document.getElementById("clothes").value);
-    let car = Number(document.getElementById("car").value);
-    let internet = Number(document.getElementById("internet").value);
-    let random = Number(document.getElementById("random").value);
-    let health = Number(document.getElementById("health").value);
-    let education = Number(document.getElementById("education").value);
-    let gifts = Number(document.getElementById("gifts").value);
-    let other = Number(document.getElementById("other").value);
+let save=Number(document.getElementById("save").value);
+let mortgageType=document.getElementById("mortgageType").value;
 
-    let save = Number(document.getElementById("save").value);
+let downPay=house*down;
+let loan=house-downPay;
 
-    let downPay = house * down;
-    let loan = house - downPay;
+let mort, firstPayment=0, lastPayment=0;
 
-    let mort =
-    loan * (rate * Math.pow(1 + rate, years)) /
-    (Math.pow(1 + rate, years) - 1);
-
-    let expenses =
-        food + transport + utilities + fun +
-        clothes + car + internet + random +
-        health + education + gifts + other;
-
-    let total = expenses + mort;
-
-    let comfort = total * 1.2;
-
-    let yearsToDown = downPay / (save * 12);
-
-    document.getElementById("mortRes").innerText = "$" + mort.toFixed(0);
-    document.getElementById("expRes").innerText = "$" + expenses.toFixed(0);
-    document.getElementById("totalRes").innerText = "$" + total.toFixed(0);
-    document.getElementById("incomeRes").innerText = "$" + total.toFixed(0);
-    document.getElementById("comfortRes").innerText = "$" + comfort.toFixed(0);
-    document.getElementById("yearsRes").innerText = yearsToDown.toFixed(1);
-
+if(mortgageType==="annuity"){
+    mort=loan*(rate*Math.pow(1+rate,years))/(Math.pow(1+rate,years)-1);
+    firstPayment=mort;
+    lastPayment=mort;
+}else{
+    let principalPart=loan/years;
+    firstPayment=principalPart + loan*rate;
+    lastPayment=principalPart + principalPart*rate;
+    mort=firstPayment;
 }
 
+let total=expenses+mort;
+let comfort=total*1.2;
+let yearsToDown=downPay/(save*12);
+
+typeRes.innerText=mortgageType==="annuity"?"Аннуитетная":"Дифференциальная";
+mortRes.innerText="$"+mort.toFixed(0);
+expRes.innerText="$"+expenses.toFixed(0);
+totalRes.innerText="$"+total.toFixed(0);
+incomeRes.innerText="$"+total.toFixed(0);
+comfortRes.innerText="$"+comfort.toFixed(0);
+yearsRes.innerText=yearsToDown.toFixed(1);
+firstPayRes.innerText="$"+firstPayment.toFixed(0);
+lastPayRes.innerText="$"+lastPayment.toFixed(0);
+}
 </script>
-
 </body>
-</html>
-    <script  src="./script.js"></script>
-
-  </body>
-  
 </html>
